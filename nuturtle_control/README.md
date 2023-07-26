@@ -33,15 +33,15 @@ The package includes a .yaml file that contains a list of parameters that list s
 # Simulation Demo
 Here is a demo of using only the simulated turtlebots. The blue arrows represent the odometry. Both the blue and red robot are overlayed and follow the same circular path: 
 
-[NUSIM.webm](https://user-images.githubusercontent.com/103614797/217736839-247e3e41-e75c-4376-9174-f2012d38c733.webm)
 
+[NUSIM.webm](https://github.com/allan-gc/ros2-ekf-slam/assets/103614797/f5fe8616-8335-4c08-bee6-ef3d9bb4163f)
 
 
 <br/>
 
 Here is a video of using the real robot while simultaneously visualizing its movement in rviz. The robot is being commanded with the services in the circle node to move forward and backward along an arc. At the end of the video, once it stops in the square marked on the floor, it is moved using teleop keys to position it in the square a bit better to try to get a smaller error in odometry. The error in odometry during this trial was 0.0025m.  
 
-[REAL_SIM.webm](https://user-images.githubusercontent.com/103614797/217752428-ae0bcd51-cdde-489e-922a-b978703c25be.webm)
 
+[REAL_SIM.webm](https://github.com/allan-gc/ros2-ekf-slam/assets/103614797/fb5aa3d3-0100-4201-880c-0aefc54b13a6)
 
 
