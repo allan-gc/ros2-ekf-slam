@@ -1,0 +1,71 @@
+<launch>
+
+    <arg name="cmd_src" default="none" description = "Setting for how to control the robot. Valid choices: none, circle, teleop"/>
+    <arg name="robot" default="nusim" description = "Setting for which robot environment to use. Valid choices: none, nusim, localhost"/>
+    <arg name="use_rviz" default="true" description = "Launches an rviz node. Valid choices: true, false"/>
+    <arg name="draw_only" default="false" description = "Launches nuwall version of nusim"/>
+    <arg name="body_id" default="blue/base_footprint" description = "The body id for the robot transform."/>
+    <arg name="odom_id" default="odom" description = "The odom id for the robot transform"/>
+    <arg name="wheel_left" default="wheel_left_joint" description = "Name for the left wheel joint."/>
+    <arg name="wheel_right" default="wheel_right_joint" description = "Name for the right wheel joint."/>
+    <arg name="base_config" default="$(find-pkg-share nuturtle_control)/config/base_config.rviz" description = "Initial rviz config for showing the blue(odom) robot in sim."/>
+    <arg name="rviz_config" default="$(find-pkg-share nuturtle_control)/config/blue_red_config.rviz" />
+    <arg name="basic_world_config" default="$(find-pkg-share nusim)/config/basic_world.yaml" description = "Config file that contains parameters for simulated environment"/> 
+    <arg name="laser_params_config" default="$(find-pkg-share nusim)/config/laser_params.yaml" description = "Config file that contains parameters for laser scan message" /> 
+    <arg name="diff_params_config" default="$(find-pkg-share nuturtle_description)/config/diff_params.yaml" description = "Config file that contains parameters for the differential drive robot"/>
+
+    <include file="$(find-pkg-share nusim)/launch/nusim.launch.xml" if="$(eval '\'$(var robot)\' == \'nusim\'')">
+        <arg name="rviz_config" value= '$(var rviz_config)' />
+    </include>
+
+
+    <node name="rviz2" pkg="rviz2" exec="rviz2" output="screen"   args="-d $(var base_config)" if="$(eval '\'$(var robot)\' != \'localhost\' and \'$(var use_rviz)\' == \'true\'')"  />
+
+    <node name="turtle_control" pkg="nuturtle_control" exec="turtle_control" if="$(eval '\'$(var robot)\' == \'nusim\'')">
+        <param from= "$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+        <remap from="/wheel_cmd" to="red/wheel_cmd"/>
+        <remap from="/sensor_data" to="red/sensor_data"/>
+        <remap from="/joint_states" to="blue/joint_states"/>
+    </node>
+
+    <node name="turtle_control" pkg="nuturtle_control" exec="turtle_control" if="$(eval '\'$(var robot)\' == \'localhost\'')" >
+        <param from= "$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+        <remap from="/joint_states" to="blue/joint_states"/>
+    </node>
+
+    <node name="circle" pkg="nuturtle_control" exec="circle" if="$(eval '\'$(var cmd_src)\' == \'circle\'')">
+        <param from= "$(find-pkg-share nuturtle_description)/config/diff_params.yaml"/>
+        <remap from="/joint_states" to="blue/joint_states"/>
+    </node>
+
+    <node name="nusim_odom_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x -0.0 --y 0.0 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id odom" />
+
+    <node name="odometry" pkg="nuturtle_control" exec="odometry">
+        <param name="body_id" value= '$(var body_id)'/>
+        <param name="odom_id" value= '$(var odom_id)'/>
+        <param name="wheel_left" value= '$(var wheel_left)'/>
+        <param name="wheel_right" value= '$(var wheel_right)'/>
+        <remap from="/joint_states" to="blue/joint_states"/>
+    </node>
+    
+    <node name="numsr_turtlebot" pkg="numsr_turtlebot" exec="numsr_turtlebot" if="$(eval '\'$(var robot)\' == \'localhost\'')" />
+
+    <node name="teleop" pkg="teleop_twist_keyboard" exec="teleop_twist_keyboard" output="screen" launch-prefix="xterm -e" if="$(eval '\'$(var cmd_src)\' == \'teleop\'')" />
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="blue" />
+        <arg name="use_rviz" value="false"/>
+        <arg name = "use_jsp" value="false"/>
+    </include>
+
+    <include file="$(find-pkg-share hls_lfcd_lds_driver)/launch/hlds_laser.launch.py" if="$(eval '\'$(var robot)\' == \'localhost\'')">
+    </include>
+
+    <node name="nuwall" pkg="nusim" exec="nusim" if="$(eval '\'$(var robot)\' == \'none\'')">>
+        <param from = '$(var basic_world_config)'/>
+        <param from = '$(var diff_params_config)'/>
+        <param from = '$(var laser_params_config)'/>
+        <param name = "draw_only" value= 'true'/>
+    </node>
+
+</launch>

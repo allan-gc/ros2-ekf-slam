@@ -1,0 +1,28 @@
+<launch>
+
+    <arg name="green_body_id" default="green/base_footprint" description = "The body id for the robot transform."/>
+    <arg name="green_odom_id" default="green/odom" description = "The odom id for the robot transform"/>
+    <arg name="wheel_left" default="wheel_left_joint" description = "Name for the left wheel joint."/>
+    <arg name="wheel_right" default="wheel_right_joint" description = "Name for the right wheel joint."/>
+    <arg name="robot" default="nusim" description = "Setting for which robot environment to use. Valid choices: none, nusim, localhost"/>
+
+    <include file="$(find-pkg-share nuturtle_control)/launch/start_robot.launch.xml">
+        <arg name="rviz_config" value="$(find-pkg-share nuslam)/config/slam_config.rviz" />
+    </include>
+
+    <node name="world_map_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x -0.0 --y 0.0 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id map" />
+    
+    <node name="slam" pkg="nuslam" exec="slam">
+        <param name="green_body_id" value= '$(var green_body_id)'/>
+        <param name="green_odom_id" value= '$(var green_odom_id)'/>
+        <param name="wheel_left" value= '$(var wheel_left)'/>
+        <param name="wheel_right" value= '$(var wheel_right)'/>
+        <remap from="/joint_states" to="blue/joint_states"/>
+    </node>
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="green" />
+        <arg name="use_rviz" value="false"/>
+        <arg name = "use_jsp" value="true"/>
+    </include>
+</launch>

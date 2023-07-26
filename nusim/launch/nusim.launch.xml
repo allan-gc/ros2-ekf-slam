@@ -1,0 +1,23 @@
+<launch>
+
+    <arg name="basic_world_config" default="$(find-pkg-share nusim)/config/basic_world.yaml" description = "Config file that contains parameters for simulated environment"/> 
+    <arg name="laser_params_config" default="$(find-pkg-share nusim)/config/laser_params.yaml" description = "Config file that contains parameters for laser scan message" /> 
+    <arg name="diff_params_config" default="$(find-pkg-share nuturtle_description)/config/diff_params.yaml" description = "Config file that contains parameters for the differential drive robot"/>
+    <arg name="rviz_config" default="$(find-pkg-share nusim)/config/nusim.rviz"  description = "Current rviz configuration for the nusim environment" />
+    
+
+    <node name="nusim" pkg="nusim" exec="nusim" >
+        <param from = '$(var basic_world_config)'/>
+        <param from = '$(var diff_params_config)'/>
+        <param from = '$(var laser_params_config)'/>
+    </node>
+
+
+    <node name="rviz2" pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config)"/>
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py" >
+        <arg name="color" value="red" />
+        <arg name="use_rviz" value="false"/>
+    </include>
+
+</launch>

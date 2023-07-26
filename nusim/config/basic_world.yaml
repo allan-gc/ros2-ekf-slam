@@ -1,0 +1,18 @@
+/**:
+  ros__parameters:
+    rate: 200.0
+    x0: -0.6
+    y0: 0.8
+    theta0: 1.57
+    obstacles:
+      x: [-0.6, 0.7, 0.5]
+      y: [-0.8, -0.7, 0.9]
+      r: 0.038
+      h: 0.25
+    arena:
+      x_length: 5.0
+      y_length: 5.0
+      wall_height: 0.25
+    max_range: 1.0
+    basic_sensor_variance: 0.0001
+  

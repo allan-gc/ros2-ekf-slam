@@ -1,0 +1,12 @@
+<launch>
+
+    <arg name="robot" default="nusim" description = "Setting for which robot environment to use. Valid choices: none, nusim, localhost"/>
+
+    <include file="$(find-pkg-share nuslam)/launch/slam.launch.xml" if="$(eval '\'$(var robot)\' == \'nusim\'')">
+        <!-- <arg name="cmd_src" value="teleop" /> -->
+    </include>
+    
+    <node name="landmark" pkg="nuslam" exec="landmarks" if="$(eval '\'$(var robot)\' == \'nusim\'')">
+    </node>
+
+</launch>

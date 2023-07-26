@@ -1,0 +1,36 @@
+<launch>
+
+    <let name="rviz_config_all" value="$(find-pkg-share nuturtle_description)/config/basic_all.rviz"/>
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="red" />
+        <arg name="use_rviz" value="false"/>
+    </include>
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="blue" />
+        <arg name="use_rviz" value="false"/>
+    </include> 
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="green" />
+        <arg name="use_rviz" value="false"/>
+    </include>
+
+    <include file="$(find-pkg-share nuturtle_description)/launch/load_one.launch.py">
+        <arg name="color" value="purple" />
+        <arg name="use_rviz" value="false"/>
+    </include>
+
+    <node name="rviz2" pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config_all)"/>
+
+    <node name="world_purplebot_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x 0.0 --y -1.0 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id purple/base_footprint"/>
+
+    <node name="world_bluebot_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x -0.75 --y 0.0 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id blue/base_footprint"/>
+
+    <node name="world_redbot_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x 0.25 --y 0.0 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id red/base_footprint"/>
+
+    <node name="world_greenbot_tf" pkg="tf2_ros" exec="static_transform_publisher" args="--x 0.0 --y 0.5 --z 0.0 --roll 0.0 --pitch 0.0 --yaw 0.0 --frame-id nusim/world --child-frame-id green/base_footprint"/>
+
+
+</launch>
