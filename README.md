@@ -17,4 +17,4 @@ It also includes a C++ package library:
 # Demo Videos
 The result of using these packages is being able to control a turtlebot3. Here is a video of it in action both physically and in simulation. More videos and explanations can be found in the nuturtle_control package. 
 
-[REAL_SIM.webm](https://user-images.githubusercontent.com/103614797/217753169-77573890-4c11-4eb9-9a48-e747d80c1bc5.webm)
+[REAL_SIM.webm](https://github.com/allan-gc/ros2-ekf-slam/assets/103614797/96f5e2ce-6bc9-4e04-82d2-d030609c3f93)
