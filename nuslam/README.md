@@ -12,7 +12,7 @@ This package contains the following launch files:
 # Demo Video
 Here is a video of running the launch file. The red robot is being controlled with teleop keys, and the green robot can be seen following the red robots position due to the EKF corrections:
 
-[SLAM_VID.webm](https://user-images.githubusercontent.com/103614797/222307589-0650ba46-c10c-4e59-903a-dc48b389d988.webm)
+[SLAM_VID.webm](https://github.com/allan-gc/ros2-ekf-slam/assets/103614797/8f4b2ba6-c4a0-487f-b4d7-3325bcf558f5)
 
 Here is a screenshot of the final positions and paths of the robots. The obstacles are in labeled in green to indicate that the green robot has detected its position in the world:
 
@@ -22,7 +22,7 @@ Here is a screenshot of the final positions and paths of the robots. The obstacl
 Here is a video of the landmark detection and implementation of the data association within SLAM. The blue cylinder markers are the detected landmarks from the circle fitting and data association algorithms. The data association impelemtation lowered the accuracy of the original SLAM implementation, which can be seen in the video. The green robots position is inaccurately estimated, but the SLAM algorithm is still somewhat able to minimuze that error and align it with the red robot. The inaccuracies of landmark detecion and location estimation occur more as the robots are moved within the envorinment, which can be seen in the video. 
 
 
-[slam_final_moving.webm](https://user-images.githubusercontent.com/103614797/226091603-12b97ab2-0d63-4ee0-b1e1-492c7ac95efe.webm)
+[slam_final_moving.webm](https://github.com/allan-gc/ros2-ekf-slam/assets/103614797/38887cf5-c518-47e8-bc0e-8786517121d6)
 
 
 
